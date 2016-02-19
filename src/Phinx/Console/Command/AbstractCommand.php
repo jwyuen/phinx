@@ -88,11 +88,12 @@ abstract class AbstractCommand extends Command
      */
     public function bootstrap(InputInterface $input, OutputInterface $output)
     {
+        $this->setEnvironment($input);
+
         if (!$this->getConfig()) {
             $this->loadConfig($input, $output);
         }
 
-        $this->setEnvironment($input);
 
         $this->loadManager($output);
         // report the paths
