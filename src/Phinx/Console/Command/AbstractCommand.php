@@ -92,6 +92,8 @@ abstract class AbstractCommand extends Command
             $this->loadConfig($input, $output);
         }
 
+        $this->setEnvironment($input);
+
         $this->loadManager($output);
         // report the paths
         $output->writeln('<info>using migration path</info> ' . $this->getConfig()->getMigrationPath());
@@ -99,6 +101,15 @@ abstract class AbstractCommand extends Command
             $output->writeln('<info>using seed path</info> ' . $this->getConfig()->getSeedPath());
         } catch (\UnexpectedValueException $e) {
             // do nothing as seeds are optional
+        }
+    }
+    
+    public function setEnvironment(InputInterface $input) 
+    {
+        $environment = $input->getOption('environment');
+
+        if (!is_null($environment)) {
+            putenv('PHINX_ENVIRONMENT=' . $environment);
         }
     }
 
